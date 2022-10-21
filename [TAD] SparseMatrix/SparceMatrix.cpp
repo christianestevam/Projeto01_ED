@@ -14,6 +14,14 @@ SparseMatrix::SparseMatrix(int cols, int rows){
         aux->next_h = this->m_head;
         aux->next_v = aux;
     }
+
+    aux = this->m_head;
+    for (int i = 1; i <= rows; i++){
+        aux->next_v = new Node(0, i, 0, nullptr, nullptr);
+        aux = aux->next_v;
+        aux->next_v = this->m_head;
+        aux->next_h = aux;
+    }
     
 }
 //Destrutor
