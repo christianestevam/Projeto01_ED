@@ -7,6 +7,14 @@ struct Node {
     int row;
     int col;
     double value;
+
+    Node(double val, int col, int row,  Node* node_h, Node* node_v){
+        this->value = val;
+        this->col = col;
+        this->row = row;
+        this->next_h = node_h;
+        this->next_v = node_v;
+    }
 };
 
 #endif
