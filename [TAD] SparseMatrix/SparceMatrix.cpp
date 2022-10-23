@@ -28,11 +28,28 @@ SparseMatrix::SparseMatrix(int cols, int rows){
 }
 //Destrutor
 SparseMatrix::~SparseMatrix(){
+    Node* aux = this->m_head;    // auxiliar para percorrer a lista
+    Node* aux2 = aux->next_h;    // auxiliar para percorrer a lista
+    Node* aux3 = aux->next_v;    // auxiliar para percorrer a lista
+
+    while (aux2 != this->m_head){   // percorre a lista horizontal
+        aux = aux2;                 // auxiliar recebe o valor de aux2
+        aux2 = aux2->next_h;        // auxiliar recebe o valor do próximo nó
+        delete aux;                 // deleta o nó
+    }
+
+    while (aux3 != this->m_head){    // percorre a lista vertical
+        aux = aux3;                  // auxiliar recebe o valor de aux3
+        aux3 = aux3->next_v;         // auxiliar recebe o valor do próximo nó
+        delete aux;                  // deleta o nó
+    }
+
+    delete this->m_head;             // deleta o nó cabeça
 
 }
 //Inserir elemento na matrix
 void SparseMatrix::insert(int i, int j, double value){
-
+     
 }
 // i = colunas j = linhas      O(1)
 double SparseMatrix::get(int i, int j){
