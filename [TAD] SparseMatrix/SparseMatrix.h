@@ -13,9 +13,9 @@ class SparseMatrix{
         //Construtor passando o número de linhas e colunas da matrix
         SparseMatrix(int cols, int rows);
         //Destrutor
-        ~SparseMatrix();
+        //~SparseMatrix();
         //Inserir elemento na matrix
-        void insert(int i, int j, double value);
+        //void insert(int i, int j, double value);
         //
         double get(int i, int j);
         //

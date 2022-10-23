@@ -1,5 +1,5 @@
+#include <iostream>
 #include <stdexcept>
-
 #include "SparseMatrix.h"
 
 //Construtor passando o número de linhas e colunas da matrix
@@ -26,6 +26,7 @@ SparseMatrix::SparseMatrix(int cols, int rows){
     }
     
 }
+/*
 //Destrutor
 SparseMatrix::~SparseMatrix(){
 
@@ -34,29 +35,66 @@ SparseMatrix::~SparseMatrix(){
 void SparseMatrix::insert(int i, int j, double value){
 
 }
-// i = colunas j = linhas      O(1)
-double SparseMatrix::get(int i, int j){
+*/
+
+double SparseMatrix::get(int i, int j){ // i = colunas j = linhas      O(1)
+    //Varifica se os índices são válidos e são n, retorna uma excessão
     if(i > this->m_columns || i < 0 || j > this->m_rows || j < 0)
         throw std::range_error("index out of range");
 
+    //auxiliar para percorrer as colunas
     Node* aux = this->m_head->next_h;
 
+    //percorre até o aux chegar na coluna desejada
     while(aux->col != i){
         aux = aux->next_h;
     }
 
+    //sai do nó cabeça da coluna para a próxima linha, caso haja
     aux = aux->next_v;
+
+    //percorre as linhas até encontrar um nó que se  encontra na mesma linha do parâmetro ou até o primeiro nó, caso não encontre
     while (aux->row == j || aux->row == 0){
         aux = aux->next_v;
     }
 
+    //Verifica se ele se encontra no nó cabeça;
     if(aux->row == 0)
+        //Se isso acontecer, foi porque o nó não foi encontrado, portanto, ele é 0;
         return 0;
 
+    //retorna o valor do nó encontrado
     return aux->value;
 }
 //
-void SparseMatrix::print(){
+void SparseMatrix::print(){ //O(n²)
+    //Cria um nó auxiliar para percorrer  a matriz
+    Node* aux = this->m_head->next_v;
 
+    //Percorre as linhas até o auxiliar se diferente do nó cabeça (0, 0)
+    while(aux != this->m_head){
+        //cria  um nó temporário para percorrer as colunas dentro das linhas
+        Node* temp = aux->next_h;
 
+        //um for para percorrer todda a linha;
+        for (int i = 1; i <= this->m_columns; i++){
+            //se for o primeiro nó, não coloca o espaço antes
+            if(i != 1)
+                std::cout << " ";
+
+            //vwifica  se aquele nó pertence a coluna atual do for, se sim, imprime o valor dele  e passa para o próximmo nó
+            if(temp->col == i){
+                std::cout << temp->value;
+                temp = temp->next_h;
+            }
+            //caso não encontre um nó naquela  posição, imprime 0
+            else{
+                std::cout << 0;
+            }
+        }
+
+        std::cout<< std::endl;
+
+        aux = aux->next_v;
+    }
 }
