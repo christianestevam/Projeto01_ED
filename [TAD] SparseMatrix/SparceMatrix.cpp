@@ -26,7 +26,7 @@ SparseMatrix::SparseMatrix(int cols, int rows){
     }
     
 }
-/*
+
 //Destrutor
 SparseMatrix::~SparseMatrix(){
     Node* aux = this->m_head;    // auxiliar para percorrer a lista
@@ -50,9 +50,8 @@ SparseMatrix::~SparseMatrix(){
 }
 //Inserir elemento na matrix
 void SparseMatrix::insert(int i, int j, double value){
-     
+
 }
-*/
 
 double SparseMatrix::get(int i, int j){ // i = colunas j = linhas      O(1)
     //Varifica se os índices são válidos e são n, retorna uma excessão
