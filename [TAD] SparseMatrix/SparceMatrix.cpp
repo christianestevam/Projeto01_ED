@@ -26,31 +26,73 @@ SparseMatrix::SparseMatrix(int cols, int rows){
     }
     
 }
-
+/*
 //Destrutor
+// Completexidade O(n^2)
 SparseMatrix::~SparseMatrix(){
+    // Node criado para percorrer a matriz
+    Node* aux = this->m_head;
+    // Node criado para apagar os nós
+    Node* aux2 = this->m_head;
+   // Percorre a matriz 
+    while (aux->next_h != this->m_head){
+        aux = aux->next_h;
+        // Percorre a linha da matriz e apaga os nós preenchidos com valor diferente de 0
+        while (aux->next_v != aux){
+            aux2 = aux->next_v;
+            aux->next_v = aux2->next_v;
+            delete aux2;
+        }
+        // Apaga o nó cabeça da linha da matriz
+        aux2 = aux;
+        aux = aux->next_h;
+        delete aux2;
+    }
+    // Enquanto o nó cabeça da coluna não for o nó cabeça da matriz apaga o nó cabeça da coluna da matriz
+    while (aux->next_v != aux){
+        aux2 = aux->next_v;
+        aux->next_v = aux2->next_v;
+        delete aux2;
+    }
+    delete aux;
+}
+*/
+//Inserir elemento na matrix
+//Inserir elemento na matrix
+// Complexidade: O(n)
+void SparseMatrix::insert(int i, int j, double value){
+    if (i > this->m_rows || j > this->m_columns || i < 1 || j < 1){    // verifica se a posição é válida
+        throw std::out_of_range("Posição inválida");
+    }
+
     Node* aux = this->m_head;    // auxiliar para percorrer a lista
     Node* aux2 = aux->next_h;    // auxiliar para percorrer a lista
     Node* aux3 = aux->next_v;    // auxiliar para percorrer a lista
 
-    while (aux2 != this->m_head){   // percorre a lista horizontal
-        aux = aux2;                 // auxiliar recebe o valor de aux2
-        aux2 = aux2->next_h;        // auxiliar recebe o valor do próximo nó
-        delete aux;                 // deleta o nó
+    while (aux2->row != j){      // percorre a lista horizontal
+        aux2 = aux2->next_h;     // auxiliar recebe o valor do próximo nó
     }
 
-    while (aux3 != this->m_head){    // percorre a lista vertical
-        aux = aux3;                  // auxiliar recebe o valor de aux3
-        aux3 = aux3->next_v;         // auxiliar recebe o valor do próximo nó
-        delete aux;                  // deleta o nó
+    while (aux3->col != i){      // percorre a lista vertical
+        aux3 = aux3->next_v;     // auxiliar recebe o valor do próximo nó
     }
 
-    delete this->m_head;             // deleta o nó cabeça
+    while (aux2->next_h->col < i){   // percorre a lista horizontal
+        aux2 = aux2->next_h;          // auxiliar recebe o valor do próximo nó
+    }
 
-}
-//Inserir elemento na matrix
-void SparseMatrix::insert(int i, int j, double value){
+    while (aux3->next_v->row < j){   // percorre a lista vertical
+        aux3 = aux3->next_v;          // auxiliar recebe o valor do próximo nó
+    }
 
+    if (aux2->next_h->col == i && aux3->next_v->row == j){   // se o nó já existir
+        aux2->next_h->value = value;                         // altera o valor do nó
+    } else {                                                 // se o nó não existir
+        Node* novo = new Node(value, i, j, aux2->next_h, aux3->next_v);   // cria um novo nó
+        aux2->next_h = novo;                                             // insere o novo nó na lista horizontal
+        aux3->next_v = novo;                                             // insere o novo nó na lista vertical
+    }
+     
 }
 
 double SparseMatrix::get(int i, int j){ // i = colunas j = linhas      O(1)
