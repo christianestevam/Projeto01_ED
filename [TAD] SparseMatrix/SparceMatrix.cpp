@@ -213,3 +213,11 @@ void SparseMatrix::print(){ //O(n²)
         aux = aux->next_v;
     }
 }
+
+int SparseMatrix::getColumns(){
+    return this->m_columns;
+}
+
+int SparseMatrix::getRows(){
+    return this->m_rows;
+}

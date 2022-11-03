@@ -20,6 +20,10 @@ class SparseMatrix{
         double get(int i, int j);
         //
         void print();
+
+        int getColumns();
+
+        int getRows();
 };
 
 #endif
