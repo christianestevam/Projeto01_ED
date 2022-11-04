@@ -1,11 +1,43 @@
+/*
+Faça uma main interativa com comandos para ler, somar, multiplicar, imprimir e etc. matrizes esparsas. A entrada deve ser feita da seguinte forma:
+
+
+
+é obrigatório o uso de aloca¸cão dinâamica de memoria para implementar
+as listas de adjacencia que representam as matrizes.
+*/
+
+
 #include <iostream>
 #include "SparseMatrix.h"
+#include <fstream>
 
-/*
+
+SparseMatrix* readSparseMatrix(std::string filename){
+    std::ifstream file(filename);
+    int rows, cols, value, row, col;
+    file >> rows >> cols;
+    SparseMatrix* matrix = new SparseMatrix(rows, cols);
+    while(file >> row >> col >> value){
+        matrix->insert(row, col, value);
+    }
+    return matrix;
+}
+
 SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B){
+      if (A->getRows() != B->getRows() || A->getColumns() != B->getColumns()){
+            throw std::invalid_argument("Matrizes de dimensões diferentes");
+        }
+        SparseMatrix* aux = new SparseMatrix(A->getRows(), A->getColumns());
+        for (int i = 1; i <= A->getRows(); i++){
+            for (int j = 1; j <= A->getColumns(); j++){
+                aux->insert(i, j, A->get(i, j) + B->get(i, j));
+            }
+        }
+        return aux;    
     
 }
-*/
+
 
 SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B){
     if(A->getColumns() == B->getRows()){
@@ -27,38 +59,5 @@ SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B){
 }
 
 int main(){
-    int rows = 3;
-    int columns = 5;
-
-    SparseMatrix matrix1(rows, columns);
-    SparseMatrix matrix2(columns, rows);
-
-    int aux = 0;
-    for (int i = 1; i <= rows; i++)
-    {
-        for (int j = 1; j <= columns; j++)
-        {
-            aux++;
-            matrix1.insert(i, j, aux);
-        }
-    }
-        
-
-    for (int i = 1; i <= columns; i++)
-    {
-        for (int j = 1; j <= rows; j++)
-        {
-            aux++;
-            matrix2.insert(i, j, aux);
-        }
-        
-    }
-
-    matrix1.print();
-    std::cout << std::endl;
-    matrix2.print();
-    std::cout << std::endl;
-
-    SparseMatrix* result = multiply(&matrix1, &matrix2);
-    result->print();
+  
 }
