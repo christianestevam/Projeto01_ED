@@ -1,11 +1,9 @@
 /*
-Faça uma main interativa com comandos para ler, somar, multiplicar, imprimir e etc. matrizes esparsas. A entrada deve ser feita da seguinte forma:
+Faça uma main interativa com comandos para ler, somar, multiplicar, imprimir e etc. matrizes esparsas chamando as funções da classe SparseMatrix e da main.
 
 
-
-é obrigatório o uso de aloca¸cão dinâamica de memoria para implementar
-as listas de adjacencia que representam as matrizes.
 */
+
 
 
 #include <iostream>
@@ -25,17 +23,13 @@ SparseMatrix* readSparseMatrix(std::string filename){
 }
 
 SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B){
-      if (A->getRows() != B->getRows() || A->getColumns() != B->getColumns()){
-            throw std::invalid_argument("Matrizes de dimensões diferentes");
+    SparseMatrix* aux = new SparseMatrix(A->getRows(), A->getColumns()); // Cria uma matriz auxiliar
+    for(int i = 0; i < A->getRows(); i++){ // Percorre as linhas
+        for(int j = 0; j < A->getColumns(); j++){  // Percorre as colunas
+            aux->insert(i, j, A->get(i, j) + B->get(i, j));  // Insere o valor da soma na matriz auxiliar
         }
-        SparseMatrix* aux = new SparseMatrix(A->getRows(), A->getColumns());
-        for (int i = 1; i <= A->getRows(); i++){
-            for (int j = 1; j <= A->getColumns(); j++){
-                aux->insert(i, j, A->get(i, j) + B->get(i, j));
-            }
-        }
-        return aux;    
-    
+    }
+    return aux; // Retorna a matriz auxiliar
 }
 
 
@@ -59,5 +53,11 @@ SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B){
 }
 
 int main(){
+    
+    
+    
+
+
+    
   
 }
