@@ -1,11 +1,3 @@
-/*
-Faça uma main interativa com comandos para ler, somar, multiplicar, imprimir e etc. matrizes esparsas chamando as funções da classe SparseMatrix e da main.
-
-
-*/
-
-
-
 #include <iostream>
 #include "SparseMatrix.h"
 #include <fstream>
