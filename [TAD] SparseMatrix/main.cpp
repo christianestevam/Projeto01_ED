@@ -45,11 +45,18 @@ SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B){
 }
 
 int main(){
-    
-    
-    
+    SparseMatrix* A = readSparseMatrix("A.txt");
+    SparseMatrix* B = readSparseMatrix("B.txt");
+    SparseMatrix* C = sum(A, B);
+    SparseMatrix* D = multiply(A, B);
+    std::cout << "A:" << std::endl;
+    A->print();
+    std::cout << "B:" << std::endl;
+    B->print();
+    std::cout << "C:" << std::endl;
+    C->print();
+    std::cout << "D:" << std::endl;
+    D->print();
+    return 0;
 
-
-    
-  
 }
