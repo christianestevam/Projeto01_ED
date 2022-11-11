@@ -1,7 +1,11 @@
+/************************************************************ 
+ * CHRISTIAN ESTAVAM BARBOSA - 538863
+ * KALMAX DOS SANTOS SOUSA - 537794
+*************************************************************/
+
 #include <iostream>
 #include <stdexcept>
 #include "SparseMatrix.h"
-
 
 SparseMatrix::SparseMatrix(int rows, int cols){
     this->m_rows = rows;

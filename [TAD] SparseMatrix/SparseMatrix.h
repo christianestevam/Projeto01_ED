@@ -1,3 +1,8 @@
+/************************************************************ 
+ * CHRISTIAN ESTAVAM BARBOSA - 538863
+ * KALMAX DOS SANTOS SOUSA - 537794
+*************************************************************/
+
 #ifndef SPARSEMATRIX_H
 #define SPARSEMATRIX_H
 
