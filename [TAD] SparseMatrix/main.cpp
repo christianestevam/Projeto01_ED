@@ -8,8 +8,14 @@ SparseMatrix* readSparseMatrix(std::string filename){
     int rows, cols, value, row, col;
     file >> rows >> cols;
     SparseMatrix* matrix = new SparseMatrix(rows, cols);
-    while(file >> row >> col >> value){
-        matrix->insert(row, col, value);
+    for (int i = 1; i <= rows; i++)
+    {
+        for (int j = 1; j <= cols; j++)
+        {
+            file >> value;
+            matrix->insert(i, j, value);
+            /* code */
+        }
     }
     return matrix;
 }
@@ -26,13 +32,19 @@ SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B){
 
 
 SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B){
+ 
+ /*
     if(A->getColumns() == B->getRows()){
         SparseMatrix* aux = new SparseMatrix(B->getColumns(), A->getRows());
+*/
+A->print();
 
+SparseMatrix* aux = new SparseMatrix(B->getColumns(), A->getRows());
         for (int i = 1; i <= aux->getRows(); i++){
             for (int j = 1; j <= aux->getColumns(); j++){
                 int temp = 0;
                 for (int k = 1; k <= A->getColumns(); k++){
+                    std :: cout << i << " " << k << " " << j << std :: endl; 
                     temp += A->get(i, k) * B->get(k, j);
                 }
                 
@@ -42,21 +54,26 @@ SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B){
 
         return aux;
     }
-}
+
 
 int main(){
+   
+   
     SparseMatrix* A = readSparseMatrix("A.txt");
     SparseMatrix* B = readSparseMatrix("B.txt");
-    SparseMatrix* C = sum(A, B);
+    
+    //SparseMatrix* C = sum(A, B);
     SparseMatrix* D = multiply(A, B);
     std::cout << "A:" << std::endl;
     A->print();
     std::cout << "B:" << std::endl;
     B->print();
     std::cout << "C:" << std::endl;
-    C->print();
+    //C->print();
     std::cout << "D:" << std::endl;
     D->print();
     return 0;
-
+   std :: cout << B ->get(1, 2) << std::endl;
+   B->print();
+   
 }
