@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include "SparseMatrix.h"
 
-SparseMatrix::SparseMatrix(int rows, int cols){
+SparseMatrix::SparseMatrix(int rows, int cols){ // O(n)
     this->m_rows = rows;
     this->m_columns = cols;
 
@@ -15,45 +15,41 @@ SparseMatrix::SparseMatrix(int rows, int cols){
     Node* aux = this->m_head;
 
     for (int i = 1; i <= cols; i++){
-        aux->next_h = new Node(0, 0, i, nullptr, nullptr);
-        aux = aux->next_h;
-        aux->next_h = this->m_head;
-        aux->next_v = aux;
+        aux->next_x = new Node(0, 0, i, nullptr, nullptr);
+        aux = aux->next_x;
+        aux->next_x = this->m_head;
+        aux->next_y = aux;
     }
 
     aux = this->m_head;
     for (int i = 1; i <= rows; i++){
-        aux->next_v = new Node(0, i, 0, nullptr, nullptr);
-        aux = aux->next_v;
-        aux->next_v = this->m_head;
-        aux->next_h = aux;
-    }
-    
+        aux->next_y = new Node(0, i, 0, nullptr, nullptr);
+        aux = aux->next_y;
+        aux->next_y = this->m_head;
+        aux->next_x = aux;
+    }   
 }
 
-//Destrutor
-// Completexidade O(n^2)
-SparseMatrix::~SparseMatrix(){
- 
-    Node* aux = this->m_head->next_h;
+SparseMatrix::~SparseMatrix(){ // O(n²) 
+    Node* aux = this->m_head->next_x;
 
     while(aux != this->m_head){
-        Node* aux2 = aux->next_v;
+        Node* aux2 = aux->next_y;
+
         while(aux2 != aux){
-            Node* temp = aux2->next_v;
+            Node* temp = aux2->next_y;
             delete aux2;
             aux2 = temp;
         }
 
-        
-        Node* temp = aux->next_h;
+        Node* temp = aux->next_x;
         delete aux;
         aux = temp;
     }
 
-    aux = this->m_head->next_v;
+    aux = this->m_head->next_y;
     while(aux != this->m_head){
-        Node* temp = aux->next_v;
+        Node* temp = aux->next_y;
         delete aux;
         aux = temp;
     }
@@ -61,109 +57,83 @@ SparseMatrix::~SparseMatrix(){
     delete this->m_head;
 }
 
-//Inserir elemento na matrix
-//Inserir elemento na matrix
-// Complexidade: O(n)
-void SparseMatrix::insert(int i, int j, double value){
-    if (i > this->m_rows || j > this->m_columns || i < 1 || j < 1){    // verifica se a posição é válida
+void SparseMatrix::insert(int i, int j, double value){ // O(n)
+    if (i > this->m_rows || j > this->m_columns || i < 1 || j < 1){
         throw std::out_of_range("Posição inválida");
     }
 
-    Node* aux1 = this->m_head->next_v;
-    Node* aux2 = this->m_head->next_h;
+    Node* aux1 = this->m_head->next_y;
+    Node* aux2 = this->m_head->next_x;
 
-    while (aux1->row != i){
-        aux1 = aux1->next_v;
-    }
+    while (aux1->row != i)
+        aux1 = aux1->next_y;
 
-    while (aux2->col != j){
-        aux2 = aux2->next_h;
-    }
+    while (aux2->col != j)
+        aux2 = aux2->next_x;
 
-    while (aux1->next_h->col < j && aux1->next_h->col != 0){
-        aux1 = aux1->next_h;
-    }
+    while (aux1->next_x->col < j && aux1->next_x->col != 0)
+        aux1 = aux1->next_x;
 
-    while (aux2->next_v->row < i && aux2->next_v->row != 0){
-        aux2 = aux2->next_v;
-    }
+    while (aux2->next_y->row < i && aux2->next_y->row != 0)
+        aux2 = aux2->next_y;
 
-    if (aux1->next_h->col == i && aux2->next_v->row == j){   
-        aux1->next_h->value = value;
+    if (aux1->next_x->col == i && aux2->next_y->row == j){   
+        aux1->next_x->value = value;
     } else {
-        Node* novo = new Node(value, i, j, aux1->next_h, aux2->next_v);
-        aux1->next_h = novo;
-        aux2->next_v = novo;
+        Node* novo = new Node(value, i, j, aux1->next_x, aux2->next_y);
+        aux1->next_x = novo;
+        aux2->next_y = novo;
     }
      
 }
 
-double SparseMatrix::get(int i, int j){ // i = linhas j = colunas      O(1)
-    //Varifica se os índices são válidos e são n, retorna uma excessão
+double SparseMatrix::get(int i, int j){ // O(n)
     if(i > this->m_rows || i < 0 || j > this->m_columns || j < 0)
         throw std::range_error("index out of range");
 
-    //auxiliar para percorrer as colunas
-    Node* aux = this->m_head->next_h;
+    Node* aux = this->m_head->next_x;
 
-    //percorre até o aux chegar na coluna desejada
-    while(aux->col != j){
-        aux = aux->next_h;
-    }
+    while(aux->col != j)
+        aux = aux->next_x;
 
-    //sai do nó cabeça da coluna para a próxima linha, caso haja
-    aux = aux->next_v;
+    aux = aux->next_y;
 
-    //percorre as linhas até encontrar um nó que se  encontra na mesma linha do parâmetro ou até o primeiro nó, caso não encontre
-    while (aux->row != i && aux->row != 0){
-        aux = aux->next_v;
-    }
+    while (aux->row != i && aux->row != 0)
+        aux = aux->next_y;
 
-    //Verifica se ele se encontra no nó cabeça;
-    if(aux->row == 0)
-        //Se isso acontecer, foi porque o nó não foi encontrado, portanto, ele é 0;
+    if(aux->row == 0) 
         return 0;
 
-    //retorna o valor do nó encontrado
     return aux->value;
 }
 //
-void SparseMatrix::print(){ //O(n²)
-    //Cria um nó auxiliar para percorrer  a matriz
-    Node* aux = this->m_head->next_v;
+void SparseMatrix::print(){ //O(n²)    
+    Node* aux = this->m_head->next_y;
 
-    //Percorre as linhas até o auxiliar se diferente do nó cabeça (0, 0)
     while(aux != this->m_head){
-        //cria  um nó temporário para percorrer as colunas dentro das linhas
-        Node* temp = aux->next_h;
+        Node* temp = aux->next_x;
 
-        //um for para percorrer todda a linha;
         for (int i = 1; i <= this->m_columns; i++){
-            //se for o primeiro nó, não coloca o espaço antes
             if(i != 1)
                 std::cout << " ";
 
-            //vwifica  se aquele nó pertence a coluna atual do for, se sim, imprime o valor dele  e passa para o próximmo nó
             if(temp->col == i){
                 std::cout << temp->value;
-                temp = temp->next_h;
-            }
-            //caso não encontre um nó naquela  posição, imprime 0
-            else{
+                temp = temp->next_x;
+
+            } else
                 std::cout << 0;
-            }
         }
 
         std::cout<< std::endl;
-
-        aux = aux->next_v;
+        aux = aux->next_y;
     }
 }
 
-int SparseMatrix::getColumns(){
+int SparseMatrix::getColumns(){ // O(1)
     return this->m_columns;
 }
 
-int SparseMatrix::getRows(){
+int SparseMatrix::getRows(){ // O(1)
     return this->m_rows;
 }

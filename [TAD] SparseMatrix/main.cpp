@@ -8,19 +8,17 @@
 #include <fstream>
 
 
-SparseMatrix* readSparseMatrix(std::string filename){  //O(n²)
+SparseMatrix* readSparseMatrix(std::string filename){  //O(n)
     std::ifstream file(filename);
-    int rows, cols;
+    int rows, cols, row, col;
     double value;
 
     file >> rows >> cols;
     SparseMatrix* matrix = new SparseMatrix(rows, cols);
-    for (int i = 1; i <= rows; i++){
-        for (int j = 1; j <= cols; j++){
-            file >> value;
-            matrix->insert(i, j, value);
-        }
+    while(file >> row >> col >> value){
+            matrix->insert(row, col, value);
     }
+
     return matrix;
 }
 
@@ -40,7 +38,7 @@ SparseMatrix* sum(SparseMatrix* A, SparseMatrix* B){ //O(n²)
 }
 
 
-SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B){ //O(n²)
+SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B){ //O(n³)
     if(A->getColumns() == B->getRows()){
         SparseMatrix* aux = new SparseMatrix(A->getRows(), B->getColumns());
 
@@ -80,8 +78,7 @@ int main(){
     }catch(const std::runtime_error ex){
         std::cout << ex.what() << std::endl;
     }
-
-
+    
     SparseMatrix* D;
     try{
         D = multiply(A, B);
@@ -93,5 +90,4 @@ int main(){
     }
 
     return 0;
-   
 }

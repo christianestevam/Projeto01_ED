@@ -9,8 +9,8 @@
 #include <iostream>
 
 struct Node {
-    Node* next_h;
-    Node* next_v;
+    Node* next_x;
+    Node* next_y;
     int row;
     int col;
     double value;
@@ -19,8 +19,8 @@ struct Node {
         this->value = val;
         this->col = col;
         this->row = row;
-        this->next_h = node_h;
-        this->next_v = node_v;
+        this->next_x = node_h;
+        this->next_y = node_v;
     }
 
     ~Node(){

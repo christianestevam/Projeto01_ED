@@ -15,19 +15,25 @@ class SparseMatrix{
         int m_rows {0};
 
     public:
-        //Construtor passando o número de linhas e colunas da matrix
+        // Construtor passando o número de linhas e colunas da matriz
         SparseMatrix(int cols, int rows);
-        //Destrutor
+
+        // Destrutor
         ~SparseMatrix();
-        //Inserir elemento na matrix
+
+        // Inserir/Substituir elemento na matrix passando número de linhas e colunas e o valor a ser inserido
         void insert(int i, int j, double value);
-        //
+
+        // Retornar elemento da matriz
         double get(int i, int j);
-        //
+
+        // Imprimir a matriz
         void print();
 
+        //Retorna o número de colunas da matriz
         int getColumns();
 
+        //Retorna o número de linhas da matriz
         int getRows();
 };
 
