@@ -30,8 +30,7 @@ SparseMatrix::SparseMatrix(int rows, int cols){ // O(n)
     }   
 }
 
-SparseMatrix::~SparseMatrix(){ // O(n²) 
-    std::cout << "Entrei aq" << std::endl;
+SparseMatrix::~SparseMatrix(){ // O(n²)
     Node* aux = this->m_head->next_x;
 
     while(aux != this->m_head){
