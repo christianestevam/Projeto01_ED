@@ -63,7 +63,9 @@ SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B){ //O(n³)
 int main(){
     SparseMatrix* A = readSparseMatrix("A.txt");
     std::cout << "A:" << std::endl;
+    A->insert(1, 1, 0);
     A->print();
+
 
     SparseMatrix* B = readSparseMatrix("B.txt");
     std::cout << "B:" << std::endl;
@@ -78,7 +80,7 @@ int main(){
     }catch(const std::runtime_error ex){
         std::cout << ex.what() << std::endl;
     }
-    
+
     SparseMatrix* D;
     try{
         D = multiply(A, B);
@@ -89,5 +91,9 @@ int main(){
         std::cout << ex.what() << std::endl;
     }
 
+    delete A;
+    delete B;
+    delete C;
+    delete D;
     return 0;
 }

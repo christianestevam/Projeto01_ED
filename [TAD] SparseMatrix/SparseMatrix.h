@@ -30,10 +30,10 @@ class SparseMatrix{
         // Imprimir a matriz
         void print();
 
-        //Retorna o número de colunas da matriz
+        //Retornar o número de colunas da matriz
         int getColumns();
 
-        //Retorna o número de linhas da matriz
+        //Retornar o número de linhas da matriz
         int getRows();
 };
 

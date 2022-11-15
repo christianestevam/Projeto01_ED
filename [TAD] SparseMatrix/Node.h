@@ -22,10 +22,6 @@ struct Node {
         this->next_x = node_h;
         this->next_y = node_v;
     }
-
-    ~Node(){
-        std::cout << "No " << this->value << " (" <<this->row << ", " << this->col  << ") destruido" << std::endl;
-    }
 };
 
 #endif

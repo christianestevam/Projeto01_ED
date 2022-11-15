@@ -31,6 +31,7 @@ SparseMatrix::SparseMatrix(int rows, int cols){ // O(n)
 }
 
 SparseMatrix::~SparseMatrix(){ // O(n²) 
+    std::cout << "Entrei aq" << std::endl;
     Node* aux = this->m_head->next_x;
 
     while(aux != this->m_head){
@@ -78,7 +79,16 @@ void SparseMatrix::insert(int i, int j, double value){ // O(n)
         aux2 = aux2->next_y;
 
     if (aux1->next_x->col == i && aux2->next_y->row == j){   
-        aux1->next_x->value = value;
+        if(value == 0){
+            Node* temp1 = aux1->next_x->next_x;
+            Node* temp2 = aux1->next_x->next_y;
+            delete aux1->next_x;
+            aux1->next_x = temp1;
+            aux2->next_y = temp2;
+        }
+        else{
+            aux1->next_x->value = value;
+        }
     } else {
         Node* novo = new Node(value, i, j, aux1->next_x, aux2->next_y);
         aux1->next_x = novo;
