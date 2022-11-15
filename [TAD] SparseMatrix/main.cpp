@@ -63,7 +63,6 @@ SparseMatrix* multiply(SparseMatrix* A, SparseMatrix* B){ //O(n³)
 int main(){
     SparseMatrix* A = readSparseMatrix("A.txt");
     std::cout << "A:" << std::endl;
-    A->insert(1, 1, 0);
     A->print();
 
 
